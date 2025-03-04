@@ -34,7 +34,6 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(title: const Text('Bullseye')),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         spacing: 16,
         children: [
@@ -87,17 +86,15 @@ class _HomeState extends State<Home> {
               }
             },
           ),
-          if (widget.scores != null) ...[
-            Divider(),
-            Text(
-              'Previous Game Scores',
-              style: TextTheme.of(context).titleLarge,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ScoresTable(scores: widget.scores!),
-            ),
-          ],
+          Divider(),
+          Text('Previous Game Scores', style: TextTheme.of(context).titleLarge),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child:
+                widget.scores != null
+                    ? ScoresTable(scores: widget.scores!)
+                    : Text('No previous scores'),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -167,9 +164,10 @@ class _GameState extends State<Game> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildTab(context),
+      body: SafeArea(child: _buildTab(context)),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _chosenIndex,
+        type: BottomNavigationBarType.fixed,
         onTap: (index) {
           setState(() {
             _chosenIndex = index;
@@ -198,7 +196,7 @@ class _GameState extends State<Game> {
   int _hitMultiplier = 1;
   int _hitScore = 1;
 
-  List<void Function()> _undoStack = [];
+  final List<void Function()> _undoStack = [];
 
   Widget _buildPlayerTab(BuildContext context, int i) {
     final playerName = _playerNames[i]!;
@@ -331,7 +329,7 @@ class _GameState extends State<Game> {
             children: [
               FilledButton.tonalIcon(
                 icon: Icon(Icons.circle_outlined),
-                label: Text('Single Bull', style: TextStyle(fontSize: 24)),
+                label: Text('Outer Bull', style: TextStyle(fontSize: 24)),
                 onPressed: () async => await _handleHit(25, i),
               ),
               FilledButton.icon(
