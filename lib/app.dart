@@ -34,7 +34,6 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(title: const Text('Bullseye')),
       body: Column(
-        mainAxisSize: MainAxisSize.min,
         spacing: 16,
         children: [
           Text(
@@ -86,14 +85,26 @@ class _HomeState extends State<Home> {
               }
             },
           ),
-          Divider(),
-          Text('Previous Game Scores', style: TextTheme.of(context).titleLarge),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child:
-                widget.scores != null
-                    ? ScoresTable(scores: widget.scores!)
-                    : Text('No previous scores'),
+          Expanded(
+            child: Column(
+              spacing: 8,
+              children: [
+                Divider(),
+                Text(
+                  'Previous Game Scores',
+                  style: TextTheme.of(context).titleLarge,
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.only(left: 8, right: 8, bottom: 100),
+                    child:
+                        widget.scores != null
+                            ? ScoresTable(scores: widget.scores!)
+                            : Text('No previous scores'),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
