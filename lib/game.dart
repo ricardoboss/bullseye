@@ -519,6 +519,8 @@ class _GameState extends State<Game> {
 
     if (await _checkForWinner()) return;
 
+    if (widget.numPlayers == 1) return;
+
     _currentHitCount++;
     if (_currentHitCount == 3) {
       await _moveToNextPlayer();
@@ -529,8 +531,6 @@ class _GameState extends State<Game> {
     _currentHitCount = 0;
     _hitMultiplier = 1;
     _hitScore = 10;
-
-    if (widget.numPlayers == 1) return;
 
     setState(() {
       _chosenIndex = (_chosenIndex + 1) % widget.numPlayers;
