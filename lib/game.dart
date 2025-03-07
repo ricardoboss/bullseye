@@ -530,6 +530,8 @@ class _GameState extends State<Game> {
     _hitMultiplier = 1;
     _hitScore = 10;
 
+    if (widget.numPlayers == 1) return;
+
     setState(() {
       _chosenIndex = (_chosenIndex + 1) % widget.numPlayers;
     });
