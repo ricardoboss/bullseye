@@ -67,6 +67,11 @@ class _GameState extends State<Game> {
         onTap: (index) {
           setState(() {
             _chosenIndex = index;
+
+            if (_chosenIndex < widget.numPlayers) {
+              // reset hit count when changing players
+              _currentHitCount = 0;
+            }
           });
         },
         items: [
